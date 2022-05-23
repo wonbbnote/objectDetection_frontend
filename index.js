@@ -7,7 +7,6 @@ let file; // file 전역 변수.
 
 button.onclick = ()=>{
   input.click(); // 사용자가 버튼을 클릭하면 입력도 클릭.
-
 }
 
 input.addEventListener("change", function(){
