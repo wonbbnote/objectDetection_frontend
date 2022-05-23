@@ -27,10 +27,27 @@ async function upload() {
 }
 
 // 결과값 도출
-function search(){
+async function show(){
+
+    const response = await fetch(`${backend_base_url}/result`, {
+        method: 'GET',
+    })
+
+    response_json = await response.json()
+    console.log(response_json)
+    
+    showImage()
+    const output = document.getElementById("output")
+    output.innerText = response_json.output
     
 
-
-
+    function showImage() {
+        var newImage = document.getElementById('image-show').lastElementChild;
+  
+    //이미지는 화면에 나타나고
+    newImage.style.visibility = "visible";
+  
+}
+    
 
 }
