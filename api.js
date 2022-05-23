@@ -6,32 +6,45 @@ async function handleSignin() {
     console.log("handle signin")
 
     const signupData = {
-        email: document.getElementById("floatingInput").value,
+        user_id: document.getElementById("floatingInput").value,
         password: document.getElementById("floatingPassword").value,
         password_check: document.getElementById("floatingPasswordCheck").value
     }
 
     const response = await fetch(`${backend_base_url}/signup`, {
-        method: 'POST',
+        method: ["POST"],
         body: JSON.stringify(signupData)
     })
 
     response_json = await response.json()
     console.log(response_json)
 
-    if (response.status == 200) {
+    if (response_json['message'] == 'success') {
+        alert("회원가입 완료!")
         window.location.replace(`${frontend_base_url}/login.html`)
-    } else {
-        alert(response.status)
+    } else if (response_json['message'] == 'id none') {
+        alert("아이디를 입력해주세요!")
+    } else if (response_json['message'] == 'password none') {
+        alert("비밀번호를 입력해주세요!")
+    } else if (response_json['message'] == 'password check none') {
+        alert("비밀번호 확인이 필요합니다!")
+    } else if (response_json['message'] == 'password is different') {
+        alert("비밀번호가 일치하지 않습니다!")
+    } else if (response_json['message'] == 'id is duplicated') {
+        alert("중복된 아이디입니다.")
     }
 
-    // if (response.status == 200 & password == password_check) {
-    //     window.location.replace(`${frontend_base_url}/login.html`)
+    // if (response.status == 200 & response.password == response.password_check) {
     //     alert("회원가입 완료!")
-    // } else if (password != password_check) {
-    //     alert("비밀번호가 일치하지 않습니다.")
-    // } else {
-    //     alert(response.status)
+    //     window.location.replace(`${frontend_base_url}/login.html`)
+    // } else if (response.status == 401 & response.user_id == "") {
+    //     alert("아이디를 입력해주세요!")
+    // } else if (response.status == 401 & response.password == "") {
+    //     alert("비밀번호를 입력해주세요!")
+    // } else if (response.status == 401 & response.password_check == "") {
+    //     alert("비밀번호 확인이 필요합니다!")
+    // } else if (response.status == 401 & response.password != response.password_check) {
+    //     alert("비밀번호가 일치하지 않습니다!")
     // }
 }
 
@@ -40,12 +53,12 @@ async function handleLogin() {
     console.log("handle login")
 
     const loginData = {
-        email: document.getElementById("floatingInput").value,
+        user_id: document.getElementById("floatingInput").value,
         password: document.getElementById("floatingPassword").value
     }
 
     const response = await fetch(`${backend_base_url}/login`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify(loginData)
     })
 
@@ -55,9 +68,24 @@ async function handleLogin() {
     localStorage.setItem("token", response_json.token)
     // 브라우저 자체 url에 로컬 스토리지에 저장
 
-    if (response.status == 200) {
+    if (response_json['message'] == 'success') {
+        alert("로그인 완료!")
         window.location.replace(`${frontend_base_url}`)
-    } else {
-        alert(response.status)
+    } else if (response_json['message'] == 'id none') {
+        alert("아이디를 입력해주세요!")
+    } else if (response_json['message'] == 'password none') {
+        alert("비밀번호를 입력해주세요!")
+    } else if (response_json['message'] == 'id and password is different') {
+        alert("아이디 또는 비밀번호가 일치하지 않습니다!")
     }
+
+    // if (response.status == 200) {
+    //     window.location.replace(`${frontend_base_url}`)
+    // } else if (response.status == 401 & response.user_id == "") {
+    //     alert("아이디를 입력해주세요!")
+    // } else if (response.status == 401 & response.password == "") {
+    //     alert("비밀번호를 입력해주세요!")
+    // } else if (response.status == 401) {
+    //     alert("아이디 또는 비밀번호가 일치하지 않습니다!")
+    // }
 }
