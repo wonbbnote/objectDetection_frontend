@@ -30,24 +30,26 @@ async function upload() {
 async function show(){
 
     const response = await fetch(`${backend_base_url}/result`, {
-        method: 'GET',
+        method: 'GET'
     })
 
     response_json = await response.json()
     console.log(response_json)
-    
-    showImage()
-    const output = document.getElementById("output")
+
+    const result_message = document.getElementById("output")
     output.innerText = response_json.output
-    
 
-    function showImage() {
-        var newImage = document.getElementById('image-show').lastElementChild;
-  
-    //이미지는 화면에 나타나고
-    newImage.style.visibility = "visible";
-  
+    const img_path = response_json.file_path
+    console.log("C:/Users/USER/OneDrive/바탕 화면/p1/main/static/img"+img_path)
+    //document.write('<img src='"+img+"'>');
+
+    var img = document.createElement("img")
+    //img.setAttribute("src", img_path)
+    img.src = 'C:/Users/USER/OneDrive/바탕 화면/p1/main/static/img/'+img_path
+    //document.body.appendChild(img)
+
+    var block = document.getElementById("img-file")
+    block.appendChild(img)
+
 }
     
-
-}
